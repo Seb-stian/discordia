@@ -1,0 +1,22 @@
+{
+  "name": "discordia",
+  "version": "0.0.1",
+  "description": "Text game, that can be played in your discord server.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "discordia",
+    "discord",
+    "bot",
+    "nodejs",
+    "game"
+  ],
+  "author": "Seb-stian",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^12.0.1",
+    "fama": "^1.0.1"
+  }
+}
