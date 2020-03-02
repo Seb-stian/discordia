@@ -1,0 +1,145 @@
+{
+    "name": "Dark Forest",
+    "locations": [
+        {
+            "name": "Little Village",
+            "description": "You are in a small village with friendly people.",
+            "friendly": true,
+            "entities": [
+                "Smith"
+            ],
+            "leadsTo": [
+                "Dark Forest"
+            ]
+        },
+        {
+            "name": "Dark Forest",
+            "description": "You are in a dark forest, where danger might be lurking.",
+            "friendly": false,
+            "entities": [
+                {
+                    "name": "Forest spider",
+                    "chance": 50
+                }
+            ],
+            "leadsTo": [
+                "Little Village"
+            ]
+        }
+    ],
+    "enemies": [
+        {
+            "name": "Forest spider",
+            "health": 15,
+            "attack": 3,
+            "xp": 5
+        }
+    ],
+    "npcs": [
+        {
+            "name": "Smith",
+            "dialog": [
+                "What are you seeking in this village?",
+                {
+                    "type": "quest",
+                    "quest": "spiders",
+                    "phase": "start",
+                    "text": "I need a job.",
+                    "dialog": [
+                        "Can you kill three spiders in the forest?",
+                        {
+                            "text": "I can do that.",
+                            "command": "quest:spiders"
+                        },
+                        {
+                            "text": "No, thank you.",
+                            "command": "back:1"
+                        }
+                    ]
+                },
+                {
+                    "type": "quest",
+                    "quest": "spiders",
+                    "phase": "finished",
+                    "text": "I killed those spiders.",
+                    "command": "quest:spiders",
+                    "dialog": [
+                        "Thank you for your help! Here is your reward!"
+                    ]
+                },
+                {
+                    "text": "Do you sell something?",
+                    "command": "shop"
+                },
+                {
+                    "text": "Just wandering around.",
+                    "dialog": [
+                        "Alright then.",
+                        {
+                            "text": "Actually there is something...",
+                            "command": "back:1"
+                        },
+                        {
+                            "text": "Bye.",
+                            "command": "exit"
+                        }
+                    ]
+                }
+            ],
+            "buy": [
+                "Wooden Sword"
+            ],
+            "sell": [
+                "Wooden Sword"
+            ]
+        }
+    ],
+    "quests": [
+        {
+            "name": "Forest spiders",
+            "description": "Kill three spiders in the forest.",
+            "tag": "spiders",
+            "repeatable": true,
+            "autocomplete": false,
+            "rewards": [
+                "Light Heal Potion",
+                {
+                    "name": "gold",
+                    "amount": 10
+                },
+                {
+                    "name": "xp",
+                    "amount": 10
+                }
+            ],
+
+            "type": "kill",
+            "targets": ["Forest Spider"],
+            "amount": 3
+        }
+    ],
+    "items": [
+        {
+            "name": "Wooden Sword",
+            "type": "weapon",
+            "description": "An old piece of wood with a handle.",
+            "strength": 5,
+            "value": 10
+        },
+        {
+            "name": "Light Heal Potion",
+            "type": "usable",
+            "stat": "health",
+            "strength": 15,
+            "value": 20
+        }
+    ],
+    "startingItems": [
+        "Wooden Sword",
+        {
+            "name": "gold",
+            "amount": 30
+        }
+    ],
+    "startingLocation": "Little Village"
+}

@@ -1,0 +1,6 @@
+{
+    "adventure": "test-adventure",
+    "prefix": null,
+    "channels": ["discordia"],
+    "logs": true
+}
