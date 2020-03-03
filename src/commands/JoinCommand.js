@@ -6,18 +6,18 @@ module.exports = class JoinCommand extends Command {
 
     constructor() {
         super();
-        this.adminOnly = true;
+        this.adminOnly = false;
         this.command = 'join';
         this.cooldown = 0;
         this.description = 'joins you to the game';
     }
-    
+
     /**
      * @param {Discord.Message} message 
      * @param {Controller} controller 
      */
     onCall(message, controller) {
-        
+
     }
 
 }

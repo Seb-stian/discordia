@@ -1,8 +1,8 @@
 const Discord = require('discord.js');
 const Command = require('./Command');
+const loadAdventure = require('./adventure-loader');
 const fama = require('fama');
 const fs = require('fs');
-const types = require('./adventure-types');
 
 module.exports = class Controller {
 
@@ -19,51 +19,30 @@ module.exports = class Controller {
          */
         this.commands = [];
 
-        /**
-         * @type {types.Adventure}
-         */
-        this.adventure;
-
-        fs.stat('./src/commands', (error, stats) => {
-            if (!error && stats.isDirectory()) {
-                const commandFiles = fs.readdirSync('./src/commands');
-                for (let i = 0; i < commandFiles.length; i++) {
-                    const exportedClass = require(`./commands/${commandFiles[i]}`);
-                    this.commands.push(new exportedClass());
-                }
-                for (let i = 0; i < this.commands.length; i++) {
-                    if (this.commands[i]['onCommandsLoaded']) {
-                        this.commands[i].onCommandsLoaded(this.commands);
-                        break;
-                    }
-                }
-                fama.info('Commands loaded!');
-            }
-        });
-
-        this.loadAdventure();
-        client.on('message', message => this.onMessage(message));
-    }
-
-    loadAdventure() {
-        const path = `./adventures/${this.generalSettings.adventure}/adventure.json`;
+        fama.info('Loading adventure...');
         try {
-            this.adventure = JSON.parse(fs.readFileSync(path, { encoding: 'utf8' }));
+            this.adventure = loadAdventure(this.generalSettings.adventure);
         }
         catch (e) {
-            fama.error(`Failed parsing adventures/${this.generalSettings.adventure}/adventure.json contents: ${e.message}`);
-            process.exit(1);
-        }
-
-        if (typeof this.adventure['name'] !== 'string') {
-            fama.error('Adventure must have a "name" property of type string.');
-            process.exit(1);
-        }
-        if (!Array.isArray(this.adventure['locations']) || this.adventure.locations.length < 1) {
-            fama.error('Adventure must contain at least one location.');
+            fama.error(`Adventure ${this.generalSettings.adventure} couldn't be loaded: ${e.message}`);
             process.exit(1);
         }
         fama.info('Adventure loaded!');
+
+        const commandFiles = fs.readdirSync('./src/commands');
+        for (let i = 0; i < commandFiles.length; i++) {
+            const exportedClass = require(`./commands/${commandFiles[i]}`);
+            this.commands.push(new exportedClass());
+        }
+        for (let i = 0; i < this.commands.length; i++) {
+            if (this.commands[i]['onCommandsLoaded']) {
+                this.commands[i].onCommandsLoaded(this.commands);
+                break;
+            }
+        }
+        fama.info('Commands loaded!');
+
+        client.on('message', message => this.onMessage(message));
     }
 
     /**

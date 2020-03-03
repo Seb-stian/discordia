@@ -1,0 +1,9 @@
+{
+    "name": "This is minimal data needed for a valid adventure.",
+    "locations": [
+        {
+            "name": "empty",
+            "friendly": true
+        }
+    ]
+}

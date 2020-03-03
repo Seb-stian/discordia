@@ -12,7 +12,7 @@ module.exports = class JoinCommand extends Command {
         this.description = 'shows you bunch of helpful commands';
         this.text = '';
     }
-    
+
     /**
      * @param {Discord.Message} message 
      * @param {Controller} controller 

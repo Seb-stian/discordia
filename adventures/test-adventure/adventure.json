@@ -32,60 +32,88 @@
             "name": "Forest spider",
             "health": 15,
             "attack": 3,
-            "xp": 5
+            "xp": 5,
+            "drops": [
+                {
+                    "name": "Web",
+                    "chance": 50
+                }
+            ]
         }
     ],
     "npcs": [
         {
             "name": "Smith",
-            "dialog": [
-                "What are you seeking in this village?",
-                {
-                    "type": "quest",
-                    "quest": "spiders",
-                    "phase": "start",
-                    "text": "I need a job.",
-                    "dialog": [
-                        "Can you kill three spiders in the forest?",
-                        {
-                            "text": "I can do that.",
-                            "command": "quest:spiders"
-                        },
-                        {
-                            "text": "No, thank you.",
-                            "command": "back:1"
+            "dialog": {
+                "text": "What are you seeking in this village?",
+                "options": [
+                    {
+                        "condition": "quest:start:spiders",
+                        "text": "I need a job.",
+                        "dialog": {
+                            "text": "Can you kill three spiders in the forest?",
+                            "options": [
+                                {
+                                    "text": "I can do that.",
+                                    "command": "quest:spiders"
+                                },
+                                {
+                                    "text": "No, thank you.",
+                                    "command": "back:1"
+                                }
+                            ]
                         }
-                    ]
-                },
-                {
-                    "type": "quest",
-                    "quest": "spiders",
-                    "phase": "finished",
-                    "text": "I killed those spiders.",
-                    "command": "quest:spiders",
-                    "dialog": [
-                        "Thank you for your help! Here is your reward!"
-                    ]
-                },
-                {
-                    "text": "Do you sell something?",
-                    "command": "shop"
-                },
-                {
-                    "text": "Just wandering around.",
-                    "dialog": [
-                        "Alright then.",
-                        {
-                            "text": "Actually there is something...",
-                            "command": "back:1"
-                        },
-                        {
-                            "text": "Bye.",
-                            "command": "exit"
+                    },
+                    {
+                        "condition": "quest:finished:spiders",
+                        "text": "I killed those spiders.",
+                        "command": "quest:spiders",
+                        "dialog": {
+                            "text": "Thank you for your help! Here is your reward!",
+                            "options": [
+                                {
+                                    "text": "You're welcome!"
+                                }
+                            ]
                         }
-                    ]
-                }
-            ],
+                    },
+                    {
+                        "text": "Do you sell something?",
+                        "command": "shop"
+                    },
+                    {
+                        "text": "Just wandering around.",
+                        "dialog": {
+                            "text": "Alright then.",
+                            "options": [
+                                {
+                                    "text": "Actually there is something...",
+                                    "command": "back:1"
+                                },
+                                {
+                                    "text": "Bye."
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "text": "Can you lead me to the forest?",
+                        "dialog": {
+                            "text": "Sure. This way...",
+                            "options": [
+                                {
+                                    "text": "I'm following.",
+                                    "command": "travel:Dark Forest"
+                                },
+                                {
+                                    "text": "Actually, nevermind.",
+                                    "command": "back:1"
+                                }
+                            ]
+                        }
+                    }
+                ]
+            },
             "buy": [
                 "Wooden Sword"
             ],
@@ -132,6 +160,12 @@
             "stat": "health",
             "strength": 15,
             "value": 20
+        },
+        {
+            "name": "Web",
+            "type": "ingredient",
+            "description": "A piece of spider web.",
+            "value": 5
         }
     ],
     "startingItems": [

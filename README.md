@@ -5,3 +5,7 @@ This is a Discord bot written in nodejs. When added to your server it allows use
 ## Caution! ⚠
 
 This project is very much under progress and is probably not even nearly finished! Unless you want to contribute, there is no point in using it right now.
+
+## Also...
+
+There might be a premade adventure after the project is finished, so you will not need to make it yourself!
