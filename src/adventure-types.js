@@ -19,7 +19,9 @@ exports.unused = {};
 /**
  * @typedef Location
  * @property {string} name
+ * @property {string} image
  * @property {string} description
+ * @property {string} condition
  * @property {boolean} friendly
  * @property {Array<string|Entity>} entities
  * @property {Array<string>} leadsTo
@@ -36,13 +38,16 @@ exports.unused = {};
  * @property {string} name
  * @property {number} health
  * @property {number} attack
- * @property {number} xp
+ * @property {string} image
+ * @property {string} condition
  * @property {Array<string|ItemCollection|Entity>} drops
  */
 
 /**
  * @typedef NPC
  * @property {string} name
+ * @property {string} image
+ * @property {string} condition
  * @property {Dialog} dialog
  * @property {Array<string>} buy
  * @property {Array<string>} sell
@@ -51,6 +56,7 @@ exports.unused = {};
 /**
  * @typedef Dialog
  * @property {string} text
+ * @property {string} condition
  * @property {Array<DialogOption>} options
  */
 
@@ -84,6 +90,7 @@ exports.unused = {};
 /**
  * @typedef Item
  * @property {string} name
+ * @property {string} image
  * @property {'weapon'|'helmet'|'chestplate'|'gloves'|'shoes'|'usable'|'ingredient'|'accesory'} type
  * @property {string} description
  * @property {number} strength
@@ -104,6 +111,7 @@ exports.unused = {};
 
 /**
  * @typedef Player
+ * @property {string} userID
  * identity
  * @property {string} name
  * @property {'male'|'female'} sex

@@ -1,7 +1,5 @@
 [TO-DO]
-- images
 - player classes and races have an effect
-- add condition to Location, Enemy, NPC
 - switch Item minLevel for condition
 
 - implement logging
@@ -17,14 +15,18 @@
 DIALOGS:
     conditions:
         quest:<phase>:<tag>
-        player:<level|strength|endurance|wisdom|agility|sex|race|type>:value
+        player:<level|strength|endurance|wisdom|agility|sex|race|type|health|mana|xp>:value
+        inventory:<item name>:<amount>
     commands:
         quest:<tag> - starts or finishes a quest with tag
         back:<number> - jumps back in dialog by a number
         travel:<location name> - moves player to the location
         exit - exits the dialog immediately
+        give:<item name|health|mana|xp>:<amount>
+        take:<item name|health|mana|xp>:<amount>
 
 (for numerical values, write '=n' or '<n' or '>n')
+(split multiple conditions/commands with ; like for example "take:gold:10;give:Grilled cheese:1")
 
 [PLAN] (screens)
 

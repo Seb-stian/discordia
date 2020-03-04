@@ -156,6 +156,13 @@ function validateLocation(location) {
         return false;
     }
 
+    if (typeof location['condition'] !== 'string') {
+        if (typeof location['condition'] !== 'undefined') {
+            fama.warn(`${location['condition']} is not a valid condition. It will be ignored.`);
+        }
+        location['condition'] = null;
+    }
+
     if (!Array.isArray(location['entities'])) {
         if (typeof location['entities'] !== 'undefined') {
             fama.warn(`Location entities must be an array. Entities will be ignored.`);
@@ -242,14 +249,11 @@ function validateEnemy(enemy) {
         return false;
     }
 
-    if (typeof enemy['xp'] !== 'number') {
-        fama.warn(`${enemy['xp']} is not a valid enemy xp. Defaults to 0.`);
-        enemy['xp'] = 0;
-    }
-
-    if (enemy['xp'] < 0) {
-        fama.warn(`${enemy['xp']} is too low for enemy xp. Defaults to 0.`);
-        enemy['xp'] = 0;
+    if (typeof enemy['condition'] !== 'string') {
+        if (typeof enemy['condition'] !== 'undefined') {
+            fama.warn(`${enemy['condition']} is not valid condition. It will be ignored.`);
+        }
+        enemy['condition'] = null;
     }
 
     if (!Array.isArray(enemy['drops'])) {
@@ -272,7 +276,7 @@ function validateEnemy(enemy) {
                 fama.warn(`${drop['name']} is not a valid enemy drop name. Drop will be ignored.`);
                 enemy['drops'].splice(i--, 1);
             }
-            if ((typeof drop['chance'] !== 'string') === (typeof drop['amount'])) {
+            else if ((typeof drop['chance'] !== 'string') === (typeof drop['amount'])) {
                 fama.warn(`Enemy drop ${drop['name']} cannot be differentiated between Entity and ItemCollection. Drop will be ignored.`);
                 enemy['drops'].splice(i--, 1);
             }
@@ -298,6 +302,13 @@ function validateNpc(npc) {
 
     if (typeof npc['dialog'] !== 'object' || Array.isArray(npc['dialog']) || !validateDialog(npc['dialog'])) {
         npc['dialog'] = null;
+    }
+
+    if (typeof npc['condition'] !== 'string') {
+        if (typeof npc['condition'] !== 'undefined') {
+            fama.warn(`${npc['condition']} is not a valid condition. It will be ignored.`);
+        }
+        npc['condition'] = null;
     }
 
     if (!Array.isArray(npc['buy'])) {
@@ -355,6 +366,13 @@ function validateDialog(dialog) {
         dialog['text'] = '';
     }
 
+    if (typeof dialog['condition'] !== 'string') {
+        if (typeof dialog['condition'] !== 'undefined') {
+            fama.warn(`${dialog['condition']} is not a valid condition. It will be ignored.`);
+        }
+        dialog['condition'] = null;
+    }
+
     for (let i = 0; i < dialog['options'].length; i++) {
         if (!validateDialogOption(dialog['options'][i])) {
             dialog['options'].splice(i--, 1);
@@ -382,6 +400,20 @@ function validateDialogOption(option) {
     if (typeof option['text'] !== 'string') {
         fama.warn(`${option['text']} is not a valid dialog option text. Option will be ignored.`);
         return false;
+    }
+
+    if (typeof option['condition'] !== 'string') {
+        if (typeof option['condition'] !== 'undefined') {
+            fama.warn(`${option['condition']} is not a valid condition. It will be ignored.`);
+        }
+        option['condition'] = null;
+    }
+
+    if (typeof option['command'] !== 'string') {
+        if (typeof option['command'] !== 'undefined') {
+            fama.warn(`${option['command']} is not a valid command. It will be ignored.`);
+        }
+        option['command'] = null;
     }
 
     if (!validateDialog(option['dialog'])) {
