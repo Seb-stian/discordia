@@ -95,7 +95,7 @@ exports.unused = {};
  * @property {string} description
  * @property {number} strength
  * @property {number} value
- * @property {number} minLevel
+ * @property {string} condition
  * For equipment
  * @property {Array<Bonus>} bonuses
  * For potions

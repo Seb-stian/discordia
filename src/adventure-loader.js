@@ -591,11 +591,11 @@ function validateItem(item) {
                 return false;
             }
 
-            if (typeof item['minLevel'] !== 'number') {
-                if (typeof item['minLevel'] !== 'undefined') {
-                    fama.warn(`${item['minLevel']} is not a valid value for item minLevel. Defaults to 0.`);
+            if (typeof item['condition'] !== 'string') {
+                if (typeof item['condition'] !== 'undefined') {
+                    fama.warn(`${item['condition']} is not a valid condition. It will be ignored.`);
                 }
-                item['minLevel'] = 0;
+                item['condition'] = null;
             }
 
         case 'ingredient':

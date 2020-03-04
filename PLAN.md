@@ -1,6 +1,5 @@
 [TO-DO]
 - player classes and races have an effect
-- switch Item minLevel for condition
 
 - implement logging
 - better help (show only possible)
