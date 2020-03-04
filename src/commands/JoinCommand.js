@@ -16,7 +16,7 @@ module.exports = class JoinCommand extends Command {
      * @param {Discord.Message} message 
      * @param {Controller} controller 
      */
-    onCall(message, controller) {
+    process(message, controller) {
         
     }
 

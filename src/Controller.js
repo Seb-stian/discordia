@@ -57,29 +57,29 @@ module.exports = class Controller {
             return;
         }
 
-        let allowedChannel = false;
-        for (let i = 0; i < this.generalSettings.channels.length; i++) {
-            if (message.channel.name === this.generalSettings.channels[i] || message.channel.id === this.generalSettings.channels[i]) {
-                allowedChannel = true;
-                break;
-            }
-        }
-        if (!allowedChannel) {
-            return;
-        }
+        // if the message was posted in the wrong channel
+        if (!this.generalSettings.channels
+            .some(identificator => identificator === message.channel.name ||
+                                   identificator === message.channel.id))
+                                   return;
 
         const parts = message.content.substring(0).split(/(\s+|\n)/g, 2);
+        const isCallerAdmin = this.isAdmin(message.member);
 
         for (let i = 0; i < this.commands.length; i++) {
             if (this.commands[i].command === parts[0].toLowerCase()) {
-                if (this.commands[i]._ready) {
-                    if (!this.commands[i].adminOnly || message.member.hasPermission('ADMINISTRATOR')) {
-                        this.commands[i].onCall(message, this);
-                    }
-                }
+                this.commands[i].onCall(message, this, isCallerAdmin);
                 break;
             }
         }
+    }
+
+    /**
+     * @param {Discord.GuildMember} member 
+     * @returns {boolean}
+     */
+    isAdmin(member) {
+        return member.hasPermission('ADMINISTRATOR');
     }
 
 }

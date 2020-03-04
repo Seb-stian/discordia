@@ -2,7 +2,7 @@ const Discord = require('discord.js');
 const Command = require('../Command');
 const Controller = require('../Controller');
 
-module.exports = class JoinCommand extends Command {
+module.exports = class HelpCommand extends Command {
 
     constructor() {
         super();
@@ -11,17 +11,18 @@ module.exports = class JoinCommand extends Command {
         this.cooldown = 10;
         this.description = 'shows you bunch of helpful commands';
         this.text = '';
+        this.adminText = '';
+        this.cooldownType = 'all';
     }
 
     /**
      * @param {Discord.Message} message 
      * @param {Controller} controller 
      */
-    onCall(message, controller) {
+    process(message, controller, isAdmin) {
         const response = new Discord.MessageEmbed();
-        response.setColor(0xfffffe).setDescription(this.text);
+        response.setColor(0xfffffe).setDescription(isAdmin ? this.adminText : this.text);
         message.reply(response);
-        this.onAfterCall();
     }
 
     /**
@@ -29,12 +30,21 @@ module.exports = class JoinCommand extends Command {
      */
     onCommandsLoaded(commands) {
         const commandTexts = [];
+        const adminCommandTexts = [];
         for (let i = 0; i < commands.length; i++) {
-            let adminText = commands[i].adminOnly ? ' [ADMIN]' : '';
+            const commandText = `**${commands[i].command}** ${commands[i].description}`
             let cooldownText = commands[i].cooldown > 0 ? ` (cooldown ${commands[i].cooldown}s)` : '';
-            commandTexts.push(`**${commands[i].command}** ${commands[i].description}${cooldownText}${adminText}`);
+
+            // for admins
+            adminCommandTexts.push(commandText);
+
+            // for users
+            if (!commands[i].adminOnly) {
+                commandTexts.push(commandText + cooldownText);
+            }
         }
         this.text = commandTexts.join('\n');
+        this.adminText = adminCommandTexts.join('\n');
     }
 
 }
