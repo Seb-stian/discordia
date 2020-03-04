@@ -4,6 +4,15 @@
 - add condition to Location, Enemy, NPC
 - switch Item minLevel for condition
 
+- implement logging
+- better help (show only possible)
+- turn of command cooldown for admins
+- possibility to assign admin to a role
+
+- check if bot has rights to write to a channel, read messages, add/remove reactions
+- 'find' command that gives you a reference to your controller and deletes the message after cooldown
+- cooldown types: 'user' and 'all' (help is 'all', others will be 'user')
+
 [WIKI]
 DIALOGS:
     conditions:

@@ -17,7 +17,7 @@ module.exports = class JoinCommand extends Command {
      * @param {Controller} controller 
      */
     onCall(message, controller) {
-
+        
     }
 
 }

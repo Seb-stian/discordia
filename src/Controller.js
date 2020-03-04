@@ -14,11 +14,6 @@ module.exports = class Controller {
         this.generalSettings = settings;
         this.client = client;
 
-        /**
-         * @type {Array<Command>}
-         */
-        this.commands = [];
-
         fama.info('Loading adventure...');
         try {
             this.adventure = loadAdventure(this.generalSettings.adventure);
@@ -28,6 +23,11 @@ module.exports = class Controller {
             process.exit(1);
         }
         fama.info('Adventure loaded!');
+
+        /**
+         * @type {Array<Command>}
+         */
+        this.commands = [];
 
         const commandFiles = fs.readdirSync('./src/commands');
         for (let i = 0; i < commandFiles.length; i++) {

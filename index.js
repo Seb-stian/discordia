@@ -24,7 +24,7 @@ let settingsObject;
 /* Checks if settings.json exists and is valid */
 if (fs.existsSync('./settings.json')) {
     try {
-        settingsObject = JSON.parse(fs.readFileSync('./settings.json'));
+        settingsObject = JSON.parse(fs.readFileSync('./settings.json', {encoding: 'utf8'}));
     }
     catch (e) {
         fama.error(`Failed parsing settings.json contents: ${e.message}`);
@@ -58,7 +58,7 @@ let tokenObject;
 /* Gets token from secret/token.json and logs in the client */
 if (fs.existsSync('./secret/token.json')) {
     try {
-        tokenObject = JSON.parse(fs.readFileSync('./secret/token.json'));
+        tokenObject = JSON.parse(fs.readFileSync('./secret/token.json', {encoding: 'utf8'}));
     }
     catch (e) {
         fama.error(`Failed parsing secret/token.json contents: ${e.message}`);
