@@ -1,6 +1,7 @@
 {
     "adventure": "test-adventure",
     "prefix": null,
+    "adminRole": null,
     "channels": ["discordia"],
     "logs": true
 }

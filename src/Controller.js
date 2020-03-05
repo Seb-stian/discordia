@@ -42,6 +42,17 @@ module.exports = class Controller {
         }
         fama.info('Commands loaded!');
 
+        // get admin roles for command auth
+        if (typeof this.generalSettings.adminRole === 'string') {
+            this.generalSettings.adminRoles = this.client.guilds.cache
+            .map(guild => guild.roles.cache.array())
+            .map(roles => roles.find(role => role.name === this.generalSettings.adminRole || role.id === this.generalSettings.adminRole))
+            .filter(role => role != null);
+        }
+        else {
+            this.generalSettings.adminRole = null;
+        }
+
         client.on('message', message => this.onMessage(message));
     }
 
@@ -79,7 +90,15 @@ module.exports = class Controller {
      * @returns {boolean}
      */
     isAdmin(member) {
-        return member.hasPermission('ADMINISTRATOR');
+        const isOwner = member.hasPermission('ADMINISTRATOR');
+        
+        if (isOwner || this.generalSettings.adminRoles == null) {
+            return isOwner;
+        }
+
+        const adminRole = this.generalSettings.adminRoles.find((role) => role.guild === member.guild);
+
+        return adminRole != null ? adminRole.comparePositionTo(member.roles.highest) <= 0 : isOwner;
     }
 
 }
@@ -88,6 +107,8 @@ module.exports = class Controller {
  * @typedef GeneralSettings
  * @property {string} adventure
  * @property {string} prefix
+ * @property {string} adminRole
+ * @property {Array<Discord.Role>} adminRoles
  * @property {Array<string>} channels
  * @property {boolean} logs
  */
