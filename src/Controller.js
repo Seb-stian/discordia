@@ -53,11 +53,16 @@ module.exports = class Controller {
             this.generalSettings.adminRole = null;
         }
 
+        /**
+         * @type {Array<import('./Screen')>}
+         */
+        this.screens = [];
+
         client.on('message', message => this.onMessage(message));
     }
 
     /**
-     * @param {Discord.Message} message 
+     * @param {Discord.Message} message
      */
     onMessage(message) {
         if (message.author.bot) {
@@ -67,7 +72,7 @@ module.exports = class Controller {
         if (!message.content.startsWith(this.generalSettings.prefix)) {
             return;
         }
-
+        
         // if the message was posted in the wrong channel
         if (!this.generalSettings.channels
             .some(identificator => identificator === message.channel.name ||
@@ -85,6 +90,14 @@ module.exports = class Controller {
         }
     }
 
+    addScreen(screen) {
+        this.screens.push(screen);
+    }
+
+    removeScreen(screen) {
+        this.screens.splice(this.screens.findIndex(s => s === screen), 1);
+    }
+
     /**
      * @param {Discord.GuildMember} member 
      * @returns {boolean}
@@ -99,6 +112,20 @@ module.exports = class Controller {
         const adminRole = this.generalSettings.adminRoles.find((role) => role.guild === member.guild);
 
         return adminRole != null ? adminRole.comparePositionTo(member.roles.highest) <= 0 : isOwner;
+    }
+
+    /**
+     * 
+     * @param {Discord.GuildChannel} channel
+     * @returns {boolean}
+     */
+    hasPermissionInChannel(channel) {
+        const permissions = channel.permissionsFor(this.client.user);
+        return permissions.has('SEND_MESSAGES') &&
+        permissions.has('ADD_REACTIONS') &&
+        permissions.has('ATTACH_FILES') &&
+        permissions.has('VIEW_CHANNEL') &&
+        permissions.has('MANAGE_MESSAGES');
     }
 
 }
