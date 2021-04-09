@@ -79,6 +79,7 @@ function loadAdventure(adventureName) {
         }
         adventure['startingLocation'] = adventure['locations'][0].name;
     }
+    adventure.startingLocationObject = adventure['locations'].find(location => location.name === adventure['startingLocation']);
 
     /* Adventure starting items */
     if (!Array.isArray(adventure['startingItems'])) {
@@ -161,6 +162,14 @@ function validateLocation(location) {
             fama.warn(`${location['condition']} is not a valid condition. It will be ignored.`);
         }
         location['condition'] = null;
+    }
+
+    if (typeof location['color'] !== 'string' && typeof location['color'] !== 'number') {
+        const defaultColor = location['friendly'] ? 'GREEN' : 'ORANGE';
+        if (typeof location['color'] !== 'undefined') {
+            fama.warn(`${location['color']} is not a valid color. Defaults to ${defaultColor}.`);
+        }
+        location['color'] = defaultColor;
     }
 
     if (!Array.isArray(location['entities'])) {

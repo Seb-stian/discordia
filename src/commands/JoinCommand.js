@@ -17,7 +17,7 @@ module.exports = class JoinCommand extends Command {
      * @param {Controller} controller 
      */
     process(message, controller) {
-        const x=new(require('../screens/CharacterCreationScreen'))(controller.client,message.author,{channel: message.channel});
+        const x=new(require('../screens/CharacterCreationScreen'))(controller,controller.client,message.author,{channel: message.channel});
         controller.addScreen(x);
     }
 

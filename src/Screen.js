@@ -3,21 +3,25 @@ const Discord = require('discord.js');
 module.exports = class Screen {
 
     /**
+     * @param {import('./Controller')} controller
      * @param {Discord.Client} client
      * @param {Discord.User} owner
      * @param {ScreenSettings} settings
      * @param {Discord.Message} message
      */
-    constructor(client, owner, settings, message = null) {
+    constructor(controller, client, owner, settings, message = null) {
+        this.controller = controller;
         this.owner = owner;
         this.client = client;
+        this.settings = settings;
         this.embed = new Discord.MessageEmbed()
         .setColor(0xfffffe);
 
         this.design(settings.data);
         this.sendEmbed(settings.channel, settings.data, message);
 
-        client.on('messageReactionAdd', (reaction, user) => this.onReaction(reaction, user));
+        this.listener = (reaction, user) => this.onReaction(reaction, user);
+        client.on('messageReactionAdd', this.listener);
     }
 
     /**
@@ -57,6 +61,15 @@ module.exports = class Screen {
         for (const emoji of emojis) {
             await this.message.react(emoji);
         }
+    }
+
+    /**
+     * @param {Screen} screen 
+     */
+    changeTo(screen) {
+        this.client.removeListener('messageReactionAdd', this.listener);
+        this.controller.removeScreen(this);
+        this.controller.addScreen(screen);
     }
 
     /* implemented in inherited classes */

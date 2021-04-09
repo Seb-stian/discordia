@@ -72,7 +72,7 @@ module.exports = class Controller {
         if (!message.content.startsWith(this.generalSettings.prefix)) {
             return;
         }
-        
+
         // if the message was posted in the wrong channel
         if (!this.generalSettings.channels
             .some(identificator => identificator === message.channel.name ||

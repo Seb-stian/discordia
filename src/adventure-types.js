@@ -20,6 +20,7 @@ exports.unused = {};
  * @typedef Location
  * @property {string} name
  * @property {string} image
+ * @property {string|number} color
  * @property {string} description
  * @property {string} condition
  * @property {boolean} friendly
@@ -110,8 +111,9 @@ exports.unused = {};
  */
 
 /**
- * @typedef Player
+ * @typedef PlayerData
  * @property {string} userID
+ * @property {string} image
  * identity
  * @property {string} name
  * @property {'male'|'female'} sex

@@ -1,5 +1,8 @@
 const Discord = require('discord.js');
+const LocationScreen = require('./LocationScreen');
+const CharacterScreen = require('./CharacterScreen');
 const Screen = require('../Screen');
+const Player = require('../Player');
 const fama = require('fama');
 
 module.exports = class CharacterCreationScreen extends Screen {
@@ -14,7 +17,7 @@ module.exports = class CharacterCreationScreen extends Screen {
 
     /**
      * 
-     * @param {import('discord.js').Message} message 
+     * @param {Discord.Message} message 
      * @param {*} data 
      */
     async sent(message, data) {
@@ -22,7 +25,7 @@ module.exports = class CharacterCreationScreen extends Screen {
     }
 
     /**
-     * @param {import('discord.js').MessageReaction} reaction 
+     * @param {Discord.MessageReaction} reaction 
      */
     async handleReaction(reaction) {
         switch (this.phase) {
@@ -45,12 +48,14 @@ module.exports = class CharacterCreationScreen extends Screen {
 
             case 1:
                 switch (reaction.emoji.name) {
-                    case '🙎‍♂️', '🙎‍♀️':
+                    case '🙎‍♂️':
+                    case '🙎‍♀️':
                         this.data.race = 'human';
                         this.setPhase(2);
                         break;
 
-                    case '🧝‍♂️', '🧝‍♀️':
+                    case '🧝‍♂️':
+                    case '🧝‍♀️':
                         this.data.race = 'elf';
                         this.setPhase(2);
                         break;
@@ -60,12 +65,14 @@ module.exports = class CharacterCreationScreen extends Screen {
                         this.setPhase(2);
                         break;
 
-                    case '🧛‍♂️',  '🧛‍♀️':
+                    case '🧛‍♂️':
+                    case '🧛‍♀️':
                         this.data.race = 'vampire';
                         this.setPhase(2);
                         break;
 
-                    case '🧟‍♂️', '🧟‍♀️':
+                    case '🧟‍♂️':
+                    case '🧟‍♀️':
                         this.data.race = 'undead';
                         this.setPhase(2);
                         break;
@@ -129,7 +136,7 @@ module.exports = class CharacterCreationScreen extends Screen {
                 .addField(emojiArray[1], 'Elf', true)
                 .addField(emojiArray[2], 'Dwarf', true)
                 .addField(emojiArray[3], 'Vampire', true)
-                .addField(emojiArray[4], 'Zombie', true);
+                .addField(emojiArray[4], 'Undead', true);
                 await this.message.edit(this.embed);
                 await this.react(emojiArray);
                 break;
@@ -144,10 +151,19 @@ module.exports = class CharacterCreationScreen extends Screen {
                 await this.react(emojisArray);
                 break;
 
-            case 3: //temp
-            this.embed = new Discord.MessageEmbed().setColor('ORANGE')
-            .setAuthor(`You are a ${this.data.sex} ${this.data.race} and also a handsome ${this.data.type}!`);
-            await this.message.edit(this.embed);
+            case 3:
+                const settings = this.settings;
+                settings.data = {
+                    player: Player.createNew(this.owner, {
+                        sex: this.data.sex,
+                        race: this.data.race,
+                        type: this.data.type,
+                        location: this.controller.adventure.startingLocation
+                    }),
+                    location: this.controller.adventure.startingLocationObject
+                };
+                const nextScreen = new CharacterScreen(this.controller, this.client, this.owner, settings, this.message);
+                this.changeTo(nextScreen);
                 break;
         }
         this.working = false;
